@@ -1,0 +1,351 @@
+/* ─── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Custom properties ──────────────────────────────────── */
+:root {
+  --bg:        #FAFAF8;
+  --text:      #1a1a18;
+  --muted:     #888;
+  --border:    #d4d4d0;
+  --tap:       #f0f0ee;
+  --max-w:     390px;
+  --serif:     Georgia, 'Times New Roman', serif;
+  --sans:      -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --pad-x:     28px;
+  --pad-y:     52px;
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  justify-content: center;
+}
+
+/* ─── Screens ────────────────────────────────────────────── */
+.screen {
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--max-w);
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--pad-y) var(--pad-x) 40px;
+}
+
+.screen.active {
+  display: flex;
+}
+
+/* ─── Screen 1 · Location ────────────────────────────────── */
+.app-name {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 52px;
+}
+
+.heading {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 40px;
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.location-btn {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 13px 16px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.location-btn:hover {
+  border-color: #aaa;
+}
+
+.location-btn:active {
+  background: var(--tap);
+  border-color: #aaa;
+}
+
+.surprise-btn {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--text);
+  border-radius: 100px;
+  padding: 15px 24px;
+  width: 100%;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  margin-top: 4px;
+  transition: background 0.12s;
+}
+
+.surprise-btn:hover {
+  background: var(--tap);
+}
+
+.surprise-btn:active {
+  background: #e8e8e6;
+}
+
+/* ─── Screen 2 · Task ────────────────────────────────────── */
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  min-height: 20px;
+}
+
+.location-badge {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.close-btn {
+  font-size: 24px;
+  line-height: 1;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  margin-top: -2px;
+  font-family: var(--sans);
+  font-weight: 300;
+}
+
+.close-btn:hover {
+  color: var(--text);
+}
+
+.task-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.task-text {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.55;
+  text-align: center;
+  color: var(--text);
+}
+
+.timer-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0 28px;
+}
+
+.timer-ring {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  overflow: visible;
+  display: block;
+}
+
+.timer-track {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1.5;
+}
+
+.timer-progress {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 1.5;
+  stroke-linecap: butt;
+  /* dasharray / dashoffset set by JS; rotation set via SVG transform attribute */
+}
+
+.timer-label {
+  font-family: var(--sans);
+  font-size: 19px;
+  font-weight: 300;
+  fill: var(--text);
+  letter-spacing: -0.02em;
+  user-select: none;
+}
+
+.timer-hint {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.timer-hint.hidden {
+  visibility: hidden;
+}
+
+/* subtle ring brightens on hover while idle */
+.timer-ring:hover .timer-track {
+  stroke: #bbb;
+}
+
+/* ─── Task buttons ───────────────────────────────────────── */
+.task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 13px 12px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  transition: background 0.12s;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--tap);
+}
+
+.btn:active {
+  background: #e8e8e6;
+}
+
+/* hide the raw file input */
+#camera-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── Photo preview ──────────────────────────────────────── */
+.photo-preview {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 68px;
+  height: 68px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.photo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ─── Screen 3 · Done ────────────────────────────────────── */
+#screen-done {
+  justify-content: space-between;
+}
+
+.done-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 24px;
+}
+
+.done-title {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 22px;
+  line-height: 1.2;
+}
+
+.closing-text {
+  font-family: var(--serif);
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 300px;
+}
+
+.btn-tomorrow {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 13px 24px;
+  width: 100%;
+  cursor: default;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0.7;
+}

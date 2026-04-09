@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>One Minute World</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Screen 1: Location -->
+  <div id="screen-location" class="screen active">
+    <p class="app-name">One Minute World</p>
+    <h1 class="heading">Where are you<br>right now?</h1>
+    <div class="location-grid">
+      <button class="location-btn" data-location="room">My room</button>
+      <button class="location-btn" data-location="cafe">Café</button>
+      <button class="location-btn" data-location="library">Library</button>
+      <button class="location-btn" data-location="outside">Outside</button>
+      <button class="location-btn" data-location="office">Class / office</button>
+      <button class="location-btn" data-location="transit">Transit</button>
+    </div>
+    <button id="btn-surprise" class="surprise-btn">Surprise me</button>
+  </div>
+
+  <!-- Screen 2: Task -->
+  <div id="screen-task" class="screen">
+    <div class="task-header">
+      <span id="location-badge" class="location-badge"></span>
+      <button id="btn-close" class="close-btn" aria-label="Start over">&#215;</button>
+    </div>
+    <div class="task-body">
+      <p id="task-text" class="task-text"></p>
+    </div>
+    <div class="timer-area">
+      <svg id="timer-ring" class="timer-ring" viewBox="0 0 120 120" width="120" height="120" aria-label="Tap to start timer">
+        <circle class="timer-track" cx="60" cy="60" r="52" />
+        <circle id="timer-progress" class="timer-progress" cx="60" cy="60" r="52" transform="rotate(-90 60 60)" />
+        <text id="timer-label" class="timer-label" x="60" y="60" text-anchor="middle" dominant-baseline="central">60</text>
+      </svg>
+      <p id="timer-hint" class="timer-hint">tap to start</p>
+    </div>
+    <div class="task-actions">
+      <label class="btn btn-photo" for="camera-input">Take a photo</label>
+      <input type="file" id="camera-input" accept="image/*" capture="environment">
+      <button id="btn-done" class="btn btn-done">I'm done</button>
+    </div>
+    <div id="photo-preview" class="photo-preview hidden">
+      <img id="photo-img" src="" alt="">
+    </div>
+  </div>
+
+  <!-- Screen 3: Done -->
+  <div id="screen-done" class="screen">
+    <div class="done-body">
+      <p class="done-title">One minute done.</p>
+      <p id="closing-text" class="closing-text"></p>
+    </div>
+    <button class="btn btn-tomorrow" tabindex="-1">Open again tomorrow</button>
+  </div>
+
+  <script src="tasks.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
