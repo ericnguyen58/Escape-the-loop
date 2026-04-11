@@ -32,19 +32,30 @@
     <div class="task-body">
       <p id="task-text" class="task-text"></p>
     </div>
-    <div class="timer-area">
-      <svg id="timer-ring" class="timer-ring" viewBox="0 0 120 120" width="120" height="120" aria-label="Tap to start timer">
-        <circle class="timer-track" cx="60" cy="60" r="52" />
-        <circle id="timer-progress" class="timer-progress" cx="60" cy="60" r="52" transform="rotate(-90 60 60)" />
-        <text id="timer-label" class="timer-label" x="60" y="60" text-anchor="middle" dominant-baseline="central">60</text>
-      </svg>
-      <p id="timer-hint" class="timer-hint">tap to start</p>
-    </div>
-    <div class="task-actions">
-      <label class="btn btn-photo" for="camera-input">Take a photo</label>
+
+    <!-- Visual task: camera button + hint -->
+    <div id="task-visual" class="task-type-ui hidden">
+      <button class="btn-camera" id="btn-open-camera">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a1a18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+        <span>open camera</span>
+      </button>
       <input type="file" id="camera-input" accept="image/*" capture="environment">
-      <button id="btn-done" class="btn btn-done">I'm done</button>
+      <p class="camera-hint">stays inside the app</p>
     </div>
+
+    <!-- Reflect task: textarea -->
+    <div id="task-reflect" class="task-type-ui hidden">
+      <textarea id="reflect-input" class="reflect-textarea" placeholder="whatever comes to mind."></textarea>
+    </div>
+
+    <!-- Done button — always present -->
+    <div class="task-done-wrap">
+      <button id="btn-done" class="btn-done">I'm done</button>
+    </div>
+
     <div id="photo-preview" class="photo-preview hidden">
       <img id="photo-img" src="" alt="">
     </div>
@@ -56,7 +67,40 @@
       <p class="done-title">One minute done.</p>
       <p id="closing-text" class="closing-text"></p>
     </div>
-    <button class="btn btn-tomorrow" tabindex="-1">Open again tomorrow</button>
+  </div>
+
+  <!-- Screen: In-app camera (State 2) -->
+  <div id="screen-camera" class="cam-screen">
+    <video id="camera-video" autoplay muted playsinline></video>
+    <canvas id="camera-canvas"></canvas>
+    <div class="cam-viewfinder"></div>
+    <div class="cam-bracket cam-bracket--tl"></div>
+    <div class="cam-bracket cam-bracket--tr"></div>
+    <div class="cam-bracket cam-bracket--bl"></div>
+    <div class="cam-bracket cam-bracket--br"></div>
+    <span id="cam-time-badge" class="cam-time-badge"></span>
+    <p id="cam-task-text" class="cam-task-text"></p>
+    <div class="cam-bar">
+      <button id="btn-cam-cancel" class="cam-bar-action">cancel</button>
+      <button id="btn-shutter" class="cam-shutter" aria-label="Take photo">
+        <span class="cam-shutter-inner"></span>
+      </button>
+      <button id="btn-cam-flip" class="cam-bar-action">flip</button>
+    </div>
+  </div>
+
+  <!-- Screen: After photo (State 3) -->
+  <div id="screen-after" class="after-screen">
+    <img id="after-photo-img" class="after-photo-img" src="" alt="">
+    <div class="after-strip">
+      <p id="after-task-text" class="after-task-text"></p>
+      <p id="after-timestamp" class="after-timestamp"></p>
+      <button id="btn-save-photo" class="btn-save-photo">save to device</button>
+      <div class="after-actions">
+        <button id="btn-retake" class="after-btn after-btn--retake">retake</button>
+        <button id="btn-keep" class="after-btn after-btn--keep">keep</button>
+      </div>
+    </div>
   </div>
 
   <script src="tasks.js"></script>

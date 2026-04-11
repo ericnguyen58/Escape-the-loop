@@ -178,95 +178,104 @@ body {
   color: var(--text);
 }
 
-.timer-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 8px 0 28px;
+/* ─── Task screen bottom padding override ────────────────── */
+#screen-task {
+  padding-bottom: 24px;
 }
 
-.timer-ring {
+/* ─── Task type UI wrapper ───────────────────────────────── */
+.task-type-ui {
+  margin-bottom: 16px;
+}
+
+/* ─── Camera button ──────────────────────────────────────── */
+.btn-camera {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: 1px solid #1a1a18;
+  border-radius: 0;
+  background: transparent;
+  padding: 12px 0;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  overflow: visible;
-  display: block;
+  transition: background 0.12s;
 }
 
-.timer-track {
-  fill: none;
-  stroke: var(--border);
-  stroke-width: 1.5;
+.btn-camera:hover {
+  background: var(--tap);
 }
 
-.timer-progress {
-  fill: none;
-  stroke: var(--text);
-  stroke-width: 1.5;
-  stroke-linecap: butt;
-  /* dasharray / dashoffset set by JS; rotation set via SVG transform attribute */
+.btn-camera:active {
+  background: #e8e8e6;
 }
 
-.timer-label {
+.btn-camera span {
   font-family: var(--sans);
-  font-size: 19px;
-  font-weight: 300;
-  fill: var(--text);
-  letter-spacing: -0.02em;
-  user-select: none;
+  font-size: 12px;
+  color: #1a1a18;
 }
 
-.timer-hint {
+/* ─── Camera hint ────────────────────────────────────────── */
+.camera-hint {
   font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
   margin-top: 10px;
 }
 
-.timer-hint.hidden {
-  visibility: hidden;
+/* ─── Reflect textarea ───────────────────────────────────── */
+.reflect-textarea {
+  display: block;
+  width: 100%;
+  height: 80px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--serif);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  padding: 12px;
+  resize: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-/* subtle ring brightens on hover while idle */
-.timer-ring:hover .timer-track {
-  stroke: #bbb;
+.reflect-textarea::placeholder {
+  color: #bbb;
+  font-style: italic;
 }
 
-/* ─── Task buttons ───────────────────────────────────────── */
-.task-actions {
+/* ─── Done button ────────────────────────────────────────── */
+.btn-done {
   display: flex;
-  gap: 10px;
-}
-
-.btn {
-  flex: 1;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--sans);
+  width: 100%;
+  border: 1px solid #1a1a18;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--serif);
   font-size: 13px;
   font-weight: 400;
-  color: var(--text);
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 13px 12px;
+  color: #1a1a18;
+  padding: 14px 0;
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
-  text-decoration: none;
   transition: background 0.12s;
-  text-align: center;
-  white-space: nowrap;
 }
 
-.btn:hover {
+.btn-done:hover {
   background: var(--tap);
 }
 
-.btn:active {
+.btn-done:active {
   background: #e8e8e6;
 }
 
@@ -333,19 +342,264 @@ body {
   max-width: 300px;
 }
 
-.btn-tomorrow {
+/* ─── In-app camera screen ───────────────────────────────── */
+.cam-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.cam-screen.active {
+  display: block;
+}
+
+#camera-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#camera-canvas {
+  display: none;
+}
+
+/* Hollow viewfinder cutout — box-shadow darkens everything outside this rect */
+.cam-viewfinder {
+  position: absolute;
+  top: 108px;
+  left: 24px;
+  right: 24px;
+  bottom: 104px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.48);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Corner brackets */
+.cam-bracket {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  z-index: 3;
+}
+
+.cam-bracket--tl {
+  top: 108px;
+  left: 24px;
+  border-top: 2px solid rgba(255,255,255,0.7);
+  border-left: 2px solid rgba(255,255,255,0.7);
+}
+
+.cam-bracket--tr {
+  top: 108px;
+  right: 24px;
+  border-top: 2px solid rgba(255,255,255,0.7);
+  border-right: 2px solid rgba(255,255,255,0.7);
+}
+
+.cam-bracket--bl {
+  bottom: 104px;
+  left: 24px;
+  border-bottom: 2px solid rgba(255,255,255,0.7);
+  border-left: 2px solid rgba(255,255,255,0.7);
+}
+
+.cam-bracket--br {
+  bottom: 104px;
+  right: 24px;
+  border-bottom: 2px solid rgba(255,255,255,0.7);
+  border-right: 2px solid rgba(255,255,255,0.7);
+}
+
+/* Time badge */
+.cam-time-badge {
+  position: absolute;
+  top: 56px;
+  right: 16px;
+  z-index: 3;
   font-family: var(--sans);
   font-size: 13px;
-  font-weight: 400;
-  color: var(--muted);
+  color: rgba(255,255,255,0.9);
+  background: rgba(0,0,0,0.45);
+  border-radius: 6px;
+  padding: 3px 8px;
+  letter-spacing: 0.04em;
+}
+
+/* Task text overlay */
+.cam-task-text {
+  position: absolute;
+  top: 56px;
+  left: 0;
+  right: 80px;
+  padding-left: 16px;
+  z-index: 3;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.5;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.55);
+}
+
+/* Bottom bar */
+.cam-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 88px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+  z-index: 3;
+}
+
+.cam-bar-action {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  padding: 8px 4px;
+  min-width: 52px;
+}
+
+.cam-bar-action:active {
+  color: rgba(255,255,255,1);
+}
+
+.cam-shutter {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #fff;
   background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 13px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.cam-shutter-inner {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.cam-shutter:active .cam-shutter-inner {
+  background: rgba(255,255,255,0.75);
+}
+
+/* ─── After photo screen ─────────────────────────────────── */
+.after-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 200;
+}
+
+.after-screen.active {
+  display: block;
+}
+
+.after-photo-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.45) contrast(1.08);
+}
+
+.after-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.45);
+  padding: 20px 20px 40px;
+  z-index: 2;
+}
+
+.after-task-text {
+  font-family: var(--serif);
+  font-size: 16px;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.45;
+  margin-bottom: 6px;
+}
+
+.after-timestamp {
+  font-family: var(--sans);
+  font-size: 11px;
+  color: rgba(255,255,255,0.48);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+
+.btn-save-photo {
+  display: inline-block;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 18px;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.btn-save-photo.saved {
+  color: rgba(255,255,255,0.35);
+  text-decoration: none;
   cursor: default;
+}
+
+.after-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.after-btn {
+  flex: 1;
+  padding: 13px 0;
+  font-family: var(--sans);
+  font-size: 14px;
+  border-radius: 0;
+  cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
-  opacity: 0.7;
+  background: transparent;
+  text-align: center;
+}
+
+.after-btn--retake {
+  border: 1px solid rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.75);
+}
+
+.after-btn--keep {
+  border: 1px solid rgba(255,255,255,0.85);
+  color: rgba(255,255,255,0.95);
 }
